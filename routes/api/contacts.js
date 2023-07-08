@@ -13,7 +13,7 @@ router.post('/', validateBody(schemas.addSchema), controller.onAddNewContact);
 
 router.put('/:id', isValidId, validateBody(schemas.addSchema), controller.onUpdateContact);
 
-router.patch('/:id/favorite', isValidId, validateBody(schemas.updateFavoriteSchema), controller.onUpdateFavorite);
+router.patch('/:id/favorite', isValidId, validateBody(schemas.updateFavoriteSchema), controller.updateStatusContact);
 
 router.delete('/:id', isValidId, controller.onDeleteContact);
 
