@@ -1,9 +1,9 @@
-const contacts = require('../models/contacts');
-const { controllerWrapper } = require('../helpers');
-const { HttpError } = require('../helpers');
+const { Contact } = require("../models/contact");
+
+const { controllerWrapper, HttpError } = require('../helpers');
 
 const onGetAllContacts = async (req, res) => {
-  const result = await contacts.listContacts();
+  const result = await Contact.find();
   if (!result) {
     throw HttpError(404, 'Not found');
   }
@@ -12,7 +12,7 @@ const onGetAllContacts = async (req, res) => {
 
 const onGetContactById = async (req, res) => {
   const { id } = req.params;
-  const result = await contacts.getContactById(id);
+  const result = await Contact.findById(id);
   if (!result) {
     throw HttpError(404, 'Not found');
   }
@@ -20,13 +20,13 @@ const onGetContactById = async (req, res) => {
 };
 
 const onAddNewContact = async (req, res) => {
-  const result = await contacts.addContact(req.body);
+  const result = await Contact.create(req.body);
   res.status(201).json(result);
 };
 
 const onDeleteContact = async (req, res) => {
   const { id } = req.params;
-  const result = await contacts.removeContact(id);
+  const result = await Contact.findByIdAndRemove(id);
   if (!result) {
     throw HttpError(404, 'Not found');
   }
@@ -35,11 +35,25 @@ const onDeleteContact = async (req, res) => {
 
 const onUpdateContact = async (req, res) => {
   const { id } = req.params;
-  const result = await contacts.updateContact(id, req.body);
+  const result = await Contact.findByIdAndUpdate(id, req.body, {new: true});
   if (!result) {
     throw HttpError(404, 'Not found');
   }
   res.json(result); 
+};
+
+const updateStatusContact = async (req, res) => {
+  const { id } = req.params;
+  const body = req.body;
+  const bodyIsEmpty = !Object.keys(body).length;
+  if (bodyIsEmpty) {
+    return res.status(400).json({ message: 'missing field favorite' });
+  }
+  const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
+  if (!result) {
+    throw HttpError(404, 'Not found');
+  }
+  res.json(result);
 };
 
 module.exports = {
@@ -48,4 +62,5 @@ module.exports = {
   onAddNewContact: controllerWrapper(onAddNewContact),
   onDeleteContact: controllerWrapper(onDeleteContact),
   onUpdateContact: controllerWrapper(onUpdateContact),
+  updateStatusContact: controllerWrapper(updateStatusContact),
 };
