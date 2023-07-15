@@ -3,7 +3,13 @@ const { Contact } = require("../models/contact");
 const { controllerWrapper, HttpError } = require('../helpers');
 
 const onGetAllContacts = async (req, res) => {
-  const result = await Contact.find();
+  const { _id: owner } = req.user;
+  const { page = 1, limit = 10 } = req.query;
+  const skip = (page - 1) * limit;
+  const result = await Contact.find({ owner }, '-createdAt', {
+    skip,
+    limit,
+  }).populate('owner', 'email subscription');
   if (!result) {
     throw HttpError(404, 'Not found');
   }
@@ -20,7 +26,8 @@ const onGetContactById = async (req, res) => {
 };
 
 const onAddNewContact = async (req, res) => {
-  const result = await Contact.create(req.body);
+  const { _id: owner } = req.user;
+  const result = await Contact.create({...req.body, owner });
   res.status(201).json(result);
 };
 
