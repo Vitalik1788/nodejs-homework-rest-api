@@ -5,16 +5,16 @@ const ctrl = require("../../controllers/ctrlAuth");
 const { validateBody, authenticate } = require('../../middlewares');
 const { authSchema, usersSubscriptionSchema } = require('../../models/user');
 
-const router = express.Router();
+const authRouter = express.Router();
 
-router.post('/register', validateBody(authSchema), ctrl.register);
+authRouter.post('/register', validateBody(authSchema), ctrl.register);
 
-router.post('/login', validateBody(authSchema), ctrl.login);
+authRouter.post('/login', validateBody(authSchema), ctrl.login);
 
-router.get('/current', authenticate, ctrl.getCurrent);
+authRouter.get('/current', authenticate, ctrl.getCurrent);
 
-router.post('/logout', authenticate, ctrl.logout);
+authRouter.post('/logout', authenticate, ctrl.logout);
 
-router.patch('/users',authenticate,validateBody(usersSubscriptionSchema),ctrl.updateSubscription);
+authRouter.patch('/users',authenticate,validateBody(usersSubscriptionSchema),ctrl.updateSubscription);
 
-module.exports = router;
+module.exports = authRouter;

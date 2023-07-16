@@ -1,4 +1,4 @@
-const { Contact } = require('../../models/contact');
+const { Contact } = require('../../models');
 const { HttpError } = require('../../helpers');
 
 const onUpdateContact = async (req, res) => {
