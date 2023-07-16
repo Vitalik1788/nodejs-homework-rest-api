@@ -1,6 +1,6 @@
 const express = require("express");
 
-const ctrl = require("../../controllers/auth");
+const ctrl = require("../../controllers/ctrlAuth");
 
 const { validateBody, authenticate } = require('../../middlewares');
 const { authSchema, usersSubscriptionSchema } = require('../../models/user');

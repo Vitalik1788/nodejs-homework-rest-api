@@ -6,7 +6,7 @@ require("dotenv").config();
 const authRouter = require('./routes/api/auth');
 const contactsRouter = require('./routes/api/contacts')
 
-const app = express()
+const app = express();
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
@@ -26,4 +26,4 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 })
 
-module.exports = app
+module.exports = app;
