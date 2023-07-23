@@ -1,5 +1,6 @@
 const { HttpError, onSendEmail } = require('../../helpers');
 const { User } = require('../../models');
+require('dotenv').config();
 
 const { BASE_URL } = process.env;
 
@@ -12,7 +13,6 @@ const resendVerifyLetter = async (req, res) => {
   if (user.verify) {
     throw HttpError(400, 'Verification has already been passed');
   }
-
   const verifyEmail = {
     to: email,
     subject: 'Please verify your email',

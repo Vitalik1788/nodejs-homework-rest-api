@@ -7,7 +7,7 @@ const logout = require('./logout');
 const updateSubscription = require('./updateSubscription');
 const onUpdateAvatar = require('./updateAvatar');
 const verifyEmail = require('./verifyEmail');
-const resendVerifyLetter = require('./getCurrentUser');
+const resendVerifyLetter = require('./resendVerifyLetter');
 
 module.exports = {
   register: controllerWrapper(register),
